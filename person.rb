@@ -1,3 +1,4 @@
+require_relative './corrector'
 # this is the class person
 class Person
   attr_reader :id
@@ -8,11 +9,16 @@ class Person
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @instance_of_corrector = Corrector.new(@name)
   end
 
   def of_age?
     false unless @age >= 18
     true
+  end
+
+  def validate_name
+    @name = @instance_of_corrector.corrector_name
   end
   private :of_age?
 
