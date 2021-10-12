@@ -1,5 +1,5 @@
 class Corrector
-  def initialize(name)
+  def initialize(names)
     @name = name
   end
 

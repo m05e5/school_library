@@ -8,7 +8,7 @@ class Person
     @id = Random.rand(1..1000)
     @name = name
     @age = age
-    @parent_permission = parent_permission
+    @parent_permission = parent_permisssion
     @instance_of_corrector = Corrector.new(@name)
   end
 
