@@ -9,7 +9,7 @@ class Person
     @id = Random.rand(1..1000)
     @name = name
     @age = age
-    @parent_permission = parent_permission
+    @parent_permission = parents_permission
     @instance_of_corrector = Corrector.new(@name)
   end
 
@@ -19,12 +19,12 @@ class Person
   end
 
   def validate_name
-    @name = @instance_of_corrector.corrector_name
+    @name = @instance_of_corrector.corrector_name?
   end
   private :of_age?
 
   def can_use_services
-    true if of_age? || @parent_permission
+    true if is_of_age? || @parent_permission
   end
   binding.pry
 end
