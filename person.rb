@@ -9,7 +9,7 @@ class Person
     @name = name
     @age = age
     @parent_permission = parent_permission
-    @instance_of_corrector = Corrector.new
+    @instance_of_corrector = Corrector.new(@name)
   end
 
   def of_age?
@@ -18,8 +18,7 @@ class Person
   end
 
   def validate_name
-    @name = @instance_of_corrector.corrector_name(@name)
-    @name
+    @name = @instance_of_corrector.corrector_name
   end
   private :of_age?
 
