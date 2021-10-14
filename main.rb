@@ -51,10 +51,11 @@ class App
       print 'Has parent permission? [Y/N]: '
       permission = gets.chomp
       permission = permission.capitalize
-      if permission == 'N'
+      case permission
+      when 'N'
         @person.push(Student.new(age, name, classroom: 'null', parent_permission: false))
         puts "Student #{name} created succesfully!"
-      elsif permission == 'Y'
+      when 'Y'
         @person.push(Student.new(age, name, classroom: 'null', parent_permission: true))
         puts "Student #{name} created succesfully!"
       else
@@ -87,10 +88,24 @@ class App
     @rentals.push(Rental.new(date: date, person: renter, book: book))
   end
 
-  def run
-    puts "Welcome to School Library App! \n \n"
+  def rental_for_id
+    print 'Id of person: '
+    p_id = gets.chomp
+    @rentals.each { |i|
+      if p_id.to_i == i.person.id
+        puts "Date: #{i.date}, Book \"#{i.book.title}\" by #{i.person.name}"
+      end
+    }
+  end
+
+  def redoo
     puts @start
     @num = gets.chomp
+  end
+
+  def run
+    puts "Welcome to School Library App! \n \n"
+    redoo
     while @num != '7'
       case @num
       when '1'
@@ -104,10 +119,9 @@ class App
       when '5'
         rent_book
       when '6'
-        puts 'hello 6'
+        rental_for_id
       end
-      puts @start
-      @num = gets.chomp
+      redoo
     end
   end
 end
