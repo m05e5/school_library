@@ -91,11 +91,9 @@ class App
   def rental_for_id
     print 'Id of person: '
     p_id = gets.chomp
-    @rentals.each { |i|
-      if p_id.to_i == i.person.id
-        puts "Date: #{i.date}, Book \"#{i.book.title}\" by #{i.person.name}"
-      end
-    }
+    @rentals.each do |i|
+      puts "Date: #{i.date}, Book \"#{i.book.title}\" by #{i.person.name}" if p_id.to_i == i.person.id
+    end
   end
 
   def redoo
@@ -103,6 +101,7 @@ class App
     @num = gets.chomp
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def run
     puts "Welcome to School Library App! \n \n"
     redoo
@@ -124,6 +123,7 @@ class App
       redoo
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 end
 
 def main
