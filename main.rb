@@ -1,7 +1,7 @@
 require_relative './book'
-require_relative './students.rb'
-require_relative './teacher.rb'
-require_relative './rental.rb'
+require_relative './students'
+require_relative './teacher'
+require_relative './rental'
 class App
   def initialize()
     @start = 'Please choose an option by entering a number
@@ -13,8 +13,7 @@ class App
     6 - List all rentals for a given person id
     7 - exit'
     @books = []
-    @students = []
-    @teachers = []
+    @person = []
     @rentals = []
   end
 
@@ -35,44 +34,57 @@ class App
   end
 
   def display_persons
-    @students.each do |i|
-      puts "[student] ID: #{i.id} Name: #{i.name}, Age: #{i.age}"
-    end
-    @teachers.each do |i|
-      puts "[Teacher] ID: #{i.id} Name: #{i.name}, Age: #{i.age}"
+    @person.each do |i|
+      puts "[#{i.role}] ID: #{i.id} Name: #{i.name}, Age: #{i.age}"
     end
   end
 
   def create_person
     print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     type = gets.chomp
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
     case type
     when '1'
-      print 'Age: '
-      age = gets.chomp
-      print 'Name: '
-      name = gets.chomp
-      @students.push(Student.new(age, name, classroom: 'null'))
-      puts "Student #{name} created succesfully!"
+      print 'Has parent permission? [Y/N]: '
+      permission = gets.chomp
+      permission = permission.capitalize
+      if permission == 'N'
+        @person.push(Student.new(age, name, classroom: 'null', parent_permission: false))
+        puts "Student #{name} created succesfully!"
+      elsif permission == 'Y'
+        @person.push(Student.new(age, name, classroom: 'null', parent_permission: true))
+        puts "Student #{name} created succesfully!"
+      else
+        puts " \n -- Student not created Please try again and specify the parent permission with a Y(y) or N(n) \n \n"
+      end
     when '2'
-      print 'Age: '
-      age = gets.chomp
-      print 'Name: '
-      name = gets.chomp
       print 'Specialization: '
       specialization = gets.chomp
-      @teachers.push(Teacher.new(age: age, name: name, specialization: specialization))
+      @person.push(Teacher.new(age: age, name: name, specialization: specialization))
       puts "Teacher #{name} created succesfully!"
     end
   end
 
-  def rent_book 
+  def rent_book
     puts 'Select  a book from the following list by number'
-    @books.each{ |b, index|
+    @books.each_with_index do |b, index|
       puts "#{index}) Title: #{b.title}, Author: #{b.author}"
-    }
-    book = gets.chomp
-    rentals.push(Rental.new(date: date, person: person, book: book))
+    end
+    book_id = gets.chomp
+    book = @books[book_id.to_i]
+
+    puts 'Select a person from the following list by number (not id)'
+    @person.each_with_index do |i, index|
+      puts "#{index}) Name: #{i.name}, Id: #{i.id}, Age: #{i.age}"
+    end
+    renter_id = gets.chomp
+    renter = @person[renter_id.to_i]
+    print 'Date: '
+    date = gets.chomp
+    @rentals.push(Rental.new(date: date, person: renter, book: book))
   end
 
   def run
@@ -90,7 +102,7 @@ class App
       when '4'
         create_book
       when '5'
-        puts 'hello 5'
+        rent_book
       when '6'
         puts 'hello 6'
       end
