@@ -4,7 +4,6 @@ require_relative './teacher'
 require_relative './rental'
 
 module Action
-
   def create_book
     puts "\n"
     print 'Title:'
@@ -15,15 +14,15 @@ module Action
   end
 
   def display_books
-    @books.each do |i|
-      puts "Title: #{i.title}, Author: #{i.author}"
+    @books.each do |book|
+      puts "Title: #{book.title}, Author: #{book.author}"
     end
     puts "\n"
   end
 
-  def display_persons
-    @person.each do |i|
-      puts "[#{i.role}] ID: #{i.id} Name: #{i.name}, Age: #{i.age}"
+  def display_users
+    @people.each do |person|
+      puts "[#{person.role}] ID: #{person.id} Name: #{person.name}, Age: #{person.age}"
     end
   end
 
@@ -41,10 +40,10 @@ module Action
       permission = permission.capitalize
       case permission
       when 'N'
-        @person.push(Student.new(age, name, classroom: 'null', parent_permission: false))
+        @people.push(Student.new(age, name, classroom: 'null', parent_permission: false))
         puts "Student #{name} created succesfully!"
       when 'Y'
-        @person.push(Student.new(age, name, classroom: 'null', parent_permission: true))
+        @people.push(Student.new(age, name, classroom: 'null', parent_permission: true))
         puts "Student #{name} created succesfully!"
       else
         puts " \n -- Student not created Please try again and specify the parent permission with a Y(y) or N(n) \n \n"
@@ -52,7 +51,7 @@ module Action
     when '2'
       print 'Specialization: '
       specialization = gets.chomp
-      @person.push(Teacher.new(age: age, name: name, specialization: specialization))
+      @people.push(Teacher.new(age: age, name: name, specialization: specialization))
       puts "Teacher #{name} created succesfully!"
     end
   end
@@ -66,11 +65,11 @@ module Action
     book = @books[book_id.to_i]
 
     puts 'Select a person from the following list by number (not id)'
-    @person.each_with_index do |i, index|
-      puts "#{index}) Name: #{i.name}, Id: #{i.id}, Age: #{i.age}"
+    @people.each_with_index do |person, index|
+      puts "#{index}) Name: #{person.name}, Id: #{person.id}, Age: #{person.age}"
     end
     renter_id = gets.chomp
-    renter = @person[renter_id.to_i]
+    renter = @people[renter_id.to_i]
     print 'Date: '
     date = gets.chomp
     @rentals.push(Rental.new(date: date, person: renter, book: book))
